@@ -4,6 +4,8 @@
 
 > This program will analize your code and prevent repetition by suggesting shorter solutions that will have the same result in less lines.
 
+Ideally, this would be implemented into Rubocop later on, by using rubocop -dry
+
 ![screenshot](./app_screenshot.png)
 
 ## Built With
