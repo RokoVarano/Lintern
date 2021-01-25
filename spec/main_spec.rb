@@ -14,14 +14,8 @@ describe FileHandler do
       mock_file = FileHandler.new('./test_files/file_handler_initialize.rb')
       expect(mock_file.file_array).to eq(example_case)
     end
-    it 'returns an error if the file cannot be read' do
-    end
-    it 'closes the current file' do
-    end
-  end
-
-  describe '#to_s' do
-    it 'returns a string with the file status and the current collection of lines' do
+    it 'returns a warning if a file cannot be read' do
+      expect(FileHandler.new('./non_existant/file.rb').warning).to eq('Warning: File could not be read: ' + './non_existant/file.rb')
     end
   end
 
