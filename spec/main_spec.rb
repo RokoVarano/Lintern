@@ -6,8 +6,9 @@ describe FileHandler do
       example_case = [
         { text: "'this is line 1'", line_place: 1, filename: 'file_handler_initialize.rb' },
         { text: "'and this is line 2'", line_place: 2, filename: 'file_handler_initialize.rb' },
-        { text: "'which takes us to line 3'", line_place: 3, filename: 'file_handler_initialize.rb' },
-        { text: "'to finally conclude in line 4'", line_place: 4, filename: 'file_handler_initialize.rb' }
+        { text: "", line_place: 3, filename: 'file_handler_initialize.rb' },
+        { text: "'which takes us to line 3'", line_place: 4, filename: 'file_handler_initialize.rb' },
+        { text: "'to finally conclude in line 4'", line_place: 5, filename: 'file_handler_initialize.rb' }
       ]
 
       mock_file = FileHandler.new('./test_files/file_handler_initialize.rb')
