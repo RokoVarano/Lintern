@@ -1,9 +1,7 @@
 # nested if statementes
 def nested_if
   if true
-    if true
-      puts 'nested if!'
-    end
+    puts 'nested if!' if true
   end
 end
 
@@ -23,28 +21,17 @@ def repeated_effect
   index = 0
 
   while index > 10
-    if true
-     index += 1
-    end
-    if false
-      index += 1
-    end
+    index += 1 if true
+    index += 1 if false
   end
 end
-
 
 # similar if statements
 
 def similar_if
-  if 1
-    puts '1' 
-  end
+  puts '1' if 1
 
-  if 2
-    puts '2'
-  end
+  puts '2' if 2
 
-  if 3
-    puts '3'
-  end
+  puts '3' if 3
 end
