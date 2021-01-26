@@ -14,6 +14,7 @@ Bundler.require(:default)
 class FileHandler
   attr_reader :file_array
   attr_reader :warning
+  attr_reader :if_arrays
 
   def initialize(file_path)
     file = File.new(file_path)
@@ -28,12 +29,35 @@ class FileHandler
                       })
     end
     @file_array = file_array
-    @file_array.map { |line| puts line[:indentation] }
     file.close
   rescue StandardError
     @warning = 'Warning: File could not be read: ' + file_path
   end
 
   def set_if_blocks
+    switch = false
+    if_indentation = nil
+    @if_arrays = []
+    if_array = []
+
+    @file_array.map do |line|
+
+      if (if_indentation == line[:indentation]) && (line[:text].include? 'end')
+        puts 'Switch OFF!! line ' + line[:line_place].to_s
+        if_array.push(line)
+        @if_arrays.push(if_array)
+        if_array = []
+        if_indentation = nil
+        switch = false
+      end
+
+      if (line[:text].include? ' if ') && if_indentation.nil?
+        puts 'Switch ON!! line ' + line[:line_place].to_s
+        switch = true
+        if_indentation = line[:indentation]
+      end
+
+      if_array.push(line) if switch
+    end
   end
 end

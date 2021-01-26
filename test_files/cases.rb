@@ -1,7 +1,9 @@
-# nested if statementes
+
 def nested_if
   if true
-    puts 'nested if!' if true
+    if true
+      puts 'nested if!' if true
+    end
   end
 end
 

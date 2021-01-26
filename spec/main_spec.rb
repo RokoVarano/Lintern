@@ -19,22 +19,12 @@ describe FileHandler do
     end
   end
 
-  describe '#search' do
-    it 'returns all lines with a specific __LINE__' do
-    end
-    it 'returns all lines with a specific __FILE__' do
-    end
-    it 'returns all lines with a specific __LINE__ and __FILE__' do
-    end
-  end
-
-  describe '#set_if' do
+  describe '#set_if_blocks' do
     it 'sets all if statements and its corresponding lines' do
-    end
-  end
-
-  describe '#set_loop' do
-    it 'sets all loop statements and its corresponding lines' do
+      mock_file = FileHandler.new('./test_files/cases.rb')
+      mock_file.set_if_blocks
+      puts 'IF ARRAYS'
+      puts mock_file.if_arrays[0]
     end
   end
 end
