@@ -15,6 +15,7 @@ class FileHandler
   attr_reader :file_array
   attr_reader :warning
   attr_reader :if_arrays
+  attr_reader :nested_if
 
   def initialize(file_path)
     file = File.new(file_path)
@@ -43,7 +44,6 @@ class FileHandler
     @file_array.map do |line|
 
       if (if_indentation == line[:indentation]) && (line[:text].include? 'end')
-        puts 'Switch OFF!! line ' + line[:line_place].to_s
         if_array.push(line)
         @if_arrays.push(if_array)
         if_array = []
@@ -52,7 +52,6 @@ class FileHandler
       end
 
       if (line[:text].include? ' if ') && if_indentation.nil?
-        puts 'Switch ON!! line ' + line[:line_place].to_s
         switch = true
         if_indentation = line[:indentation]
       end
@@ -60,4 +59,26 @@ class FileHandler
       if_array.push(line) if switch
     end
   end
+
+  def find_nested_if
+    @nested_if = []
+
+    @if_arrays.map do |array|
+      array.map do |line|
+        @nested_if.push(line) if (line[:text].include? ' if ') && (line != array[0])
+      end
+    end
+  end
+
+  def prints_nested_if
+    return if @nested_if.empty?
+
+    puts 'Nested IF statements have been found'
+    @nested_if.map { |line| puts 'File: ' + line[:filename] + ', Line: ' + line[:line_place].to_s + ', Text: ' + line[:text] }
+  end
 end
+
+file = FileHandler.new('./test_files/cases.rb')
+file.set_if_blocks
+file.find_nested_if
+file.prints_nested_if

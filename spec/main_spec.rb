@@ -27,4 +27,14 @@ describe FileHandler do
       puts mock_file.if_arrays[0]
     end
   end
+
+  describe '#find_nested_if' do
+    it 'sets the list of nested if statements' do
+      mock_file = FileHandler.new('./test_files/cases.rb')
+      mock_file.set_if_blocks
+      mock_file.find_nested_if
+      puts 'NESTED IF FOUND!'
+      puts mock_file.nested_if
+    end
+  end
 end
