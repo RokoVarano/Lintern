@@ -19,10 +19,21 @@ class FileHandler
     file = File.new(file_path)
     filename = File.basename(file_path)
     file_array = []
-    file.readlines.each_with_index.map { |line, index| file_array.push({ text: line.chomp, line_place: index + 1, filename: filename }) }
+    file.readlines.each_with_index.map do |line, index|
+      file_array.push({
+                        text: line.chomp,
+                        line_place: index + 1,
+                        filename: filename,
+                        indentation: line[/\A */].size
+                      })
+    end
     @file_array = file_array
+    @file_array.map { |line| puts line[:indentation] }
     file.close
   rescue StandardError
     @warning = 'Warning: File could not be read: ' + file_path
+  end
+
+  def set_if_blocks
   end
 end
