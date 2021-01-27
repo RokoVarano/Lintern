@@ -14,16 +14,17 @@ describe FileHandler do
         "File: cases.rb, Line: 8, Text: puts 'three nested cases' if the third",
         'File: cases.rb, Line: 19, Text: unless the_second',
         "File: cases.rb, Line: 20, Text: puts 'combined cases' if the third",
-        "File: cases.rb, Line: 37, Text: puts 'the fourth' if the_fourth"
+        "File: cases.rb, Line: 37, Text: puts 'the fourth' if the_fourth",
+        "File: cases.rb, Line: 50, Text: 'unless This string has if if and unless unless ' if the_second"
       ]
     end
 
     it 'creates an array of strings that describe errors' do
-      puts FileHandler.new('./spec/cases.rb').messages
+      puts FileHandler.new('./spec/cases.rb').line_print
       puts
       puts messages
 
-      expect(FileHandler.new('./spec/cases.rb').messages).to eq(messages)
+      expect(FileHandler.new('./spec/cases.rb').line_print).to eq(messages)
     end
   end
 end

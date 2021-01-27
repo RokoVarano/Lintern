@@ -46,15 +46,11 @@ def disruptive
     # if This comment has if if and unless unless
   end
 
-  if the_first
-    # This comment has if if and unless unless
-  end
-
   if the_second
     'unless This string has if if and unless unless ' if the_second
   end
 
   if the_second
-    'This string has if if and unless unless ' if the_second
+    'This string has if if and unless unless '
   end
 end

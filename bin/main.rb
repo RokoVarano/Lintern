@@ -33,7 +33,7 @@ class FileHandler
     @warning = 'Warning: File could not be read: ' + file_path
   end
 
-  def messages
+  def line_print
     set_if_blocks
     nested = find_nested_if
     messages = []
@@ -100,8 +100,12 @@ class FileHandler
     in_string = false
 
     if line[:text].include? "'"
-      in_string = true if line[:text][/'(.*?)'/, 1].include? ' if '
-      in_string = true if line[:text][/'(.*?)'/, 1].include? ' unless '
+      in_string = true if line[:text][/'(.*?)'/, 1].include?(' if ' || ' unless ')
+
+      split_line = line[:text].split(/'(.*?)'/)
+      split_line.map do |piece|
+        in_string = false if piece.include?(' if ' || ' unless ') && piece != line[:text][/'(.*?)'/, 1]
+      end
     end
 
     return false if in_string
@@ -131,11 +135,11 @@ class FileHandler
   end
 end
 
-# system 'rubocop -a'
-
-# file = FileHandler.new('./spec/cases.rb')
-# if file.warning.nil?
-#   file.messages.map { |line| puts line }
-# else
-#   puts file.warning
+# Dir['./**/*.rb'].map do |dir|
+#   file = FileHandler.new(dir)
+#   if file.warning
+#     puts file.warning
+#   else
+#     puts file.line_print
+#   end
 # end
