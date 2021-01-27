@@ -44,28 +44,30 @@ class FileHandler
       messages.push('File: ' + line[:filename] + ', Line: ' + line[:line_place].to_s + ', Text: ' + line[:text].strip)
     end
 
-    unless messages.empty?
-      puts 'Nested IF statements have been found'
-      puts
-      puts 'Try combining conditions'
-      puts ' instead of: '
-      puts '   if true_condition'
-      puts '     effect if another_true'
-      puts '   end'
-      puts 
-      puts ' do:'
-      puts '   effect if another_true && true_condition'
-      puts
-      puts 'Or use a guard clause, like so:'
-      puts '   return unless true_condition && another_true'
-      puts '   effect'
-      puts
-    end
+    print_message unless messages.empty?
 
     messages
   end
 
   private
+
+  def print_message
+    puts 'Nested IF statements have been found'
+    puts
+    puts 'Try combining conditions'
+    puts ' instead of: '
+    puts '   if true_condition'
+    puts '     effect if another_true'
+    puts '   end'
+    puts
+    puts ' do:'
+    puts '   effect if another_true && true_condition'
+    puts
+    puts 'Or use a guard clause, like so:'
+    puts '   return unless true_condition && another_true'
+    puts '   effect'
+    puts
+  end
 
   def set_if_blocks
     switch = false
@@ -74,16 +76,6 @@ class FileHandler
     if_array = []
 
     @file_array.map do |line|
-
-      comment = line[:text].strip[0] == '#'
-
-      in_string = false
-
-      if line[:text].include? "'"
-        in_string = true if line[:text][/'(.*?)'/, 1].include? ' if '
-        in_string = true if line[:text][/'(.*?)'/, 1].include? ' unless '
-      end
-
       if if_indentation == line[:indentation]
         if_arrays.push(if_array)
         if_array = []
@@ -91,15 +83,37 @@ class FileHandler
         switch = false
       end
 
-      if ((line[:text].include? ' if ') || (line[:text].include? ' unless ')) && if_indentation.nil?
+      if starter_line(line, if_indentation)
         switch = true
         if_indentation = line[:indentation]
       end
 
-      if_array.push(line) if switch && !comment && !in_string
+      if_array.push(line) if switch && valid_line(line)
     end
 
     if_arrays
+  end
+
+  def valid_line(line)
+    return false if line[:text].strip[0] == '#'
+
+    in_string = false
+
+    if line[:text].include? "'"
+      in_string = true if line[:text][/'(.*?)'/, 1].include? ' if '
+      in_string = true if line[:text][/'(.*?)'/, 1].include? ' unless '
+    end
+
+    return false if in_string
+
+    true
+  end
+
+  def starter_line(line, if_indentation)
+    return false unless (line[:text].include? ' if ') || (line[:text].include? ' unless ')
+    return false unless if_indentation.nil?
+
+    true
   end
 
   def find_nested_if
