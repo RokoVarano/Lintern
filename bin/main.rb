@@ -75,6 +75,15 @@ class FileHandler
 
     @file_array.map do |line|
 
+      comment = line[:text].strip[0] == '#'
+
+      in_string = false
+
+      if line[:text].include? "'"
+        in_string = true if line[:text][/'(.*?)'/, 1].include? ' if '
+        in_string = true if line[:text][/'(.*?)'/, 1].include? ' unless '
+      end
+
       if if_indentation == line[:indentation]
         if_arrays.push(if_array)
         if_array = []
@@ -87,7 +96,7 @@ class FileHandler
         if_indentation = line[:indentation]
       end
 
-      if_array.push(line) if switch
+      if_array.push(line) if switch && !comment && !in_string
     end
 
     if_arrays
