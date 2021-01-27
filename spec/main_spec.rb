@@ -10,11 +10,11 @@ describe FileHandler do
   describe '#messages' do
     let(:messages) do
       [
-        'File: cases.rb, Line: 7, Text:    if the_second',
-        "File: cases.rb, Line: 8, Text:       puts 'three nested cases' if the third",
-        'File: cases.rb, Line: 19, Text:    unless the_second',
-        "File: cases.rb, Line: 20, Text:      puts 'combined  cases' if the third",
-        "File: cases.rb, Line: 37, Text:    puts 'the fourth' if the_fourth"
+        'File: cases.rb, Line: 7, Text: if the_second',
+        "File: cases.rb, Line: 8, Text: puts 'three nested cases' if the third",
+        'File: cases.rb, Line: 19, Text: unless the_second',
+        "File: cases.rb, Line: 20, Text: puts 'combined cases' if the third",
+        "File: cases.rb, Line: 37, Text: puts 'the fourth' if the_fourth"
       ]
     end
 

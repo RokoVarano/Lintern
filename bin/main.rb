@@ -41,7 +41,7 @@ class FileHandler
     return if nested.empty?
 
     nested.map do |line|
-      messages.push('File: ' + line[:filename] + ', Line: ' + line[:line_place].to_s + ', Text: ' + line[:text])
+      messages.push('File: ' + line[:filename] + ', Line: ' + line[:line_place].to_s + ', Text: ' + line[:text].strip)
     end
 
     unless messages.empty?

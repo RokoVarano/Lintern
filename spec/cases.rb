@@ -17,7 +17,7 @@ def combination
 
   if the_first
     unless the_second
-      puts 'combined  cases' if the third
+      puts 'combined cases' if the third
     end
   end
 end
