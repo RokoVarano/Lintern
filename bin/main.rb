@@ -14,8 +14,6 @@ Bundler.require(:default)
 class FileHandler
   attr_reader :file_array
   attr_reader :warning
-  attr_reader :if_arrays
-  attr_reader :nested_if
 
   def initialize(file_path)
     file = File.new(file_path)
@@ -35,50 +33,67 @@ class FileHandler
     @warning = 'Warning: File could not be read: ' + file_path
   end
 
+  def messages
+    set_if_blocks
+    nested = find_nested_if
+    messages = []
+
+    return if nested.empty?
+
+    puts 'Nested IF statements have been found'
+    nested.map { |line| messages.push('File: ' + line[:filename] + ', Line: ' + line[:line_place].to_s + ', Text: ' + line[:text])}
+
+    messages
+  end
+
+  private
+
   def set_if_blocks
     switch = false
     if_indentation = nil
-    @if_arrays = []
+    if_arrays = []
     if_array = []
 
     @file_array.map do |line|
 
-      if (if_indentation == line[:indentation]) && (line[:text].include? 'end')
-        if_array.push(line)
-        @if_arrays.push(if_array)
+      if if_indentation == line[:indentation]
+        if_arrays.push(if_array)
         if_array = []
         if_indentation = nil
         switch = false
       end
 
-      if (line[:text].include? ' if ') && if_indentation.nil?
+      if ((line[:text].include? ' if ') || (line[:text].include? ' unless ')) && if_indentation.nil?
         switch = true
         if_indentation = line[:indentation]
       end
 
       if_array.push(line) if switch
     end
+
+    if_arrays
   end
 
   def find_nested_if
-    @nested_if = []
+    nested_if = []
 
-    @if_arrays.map do |array|
+    set_if_blocks.map do |array|
       array.map do |line|
-        @nested_if.push(line) if (line[:text].include? ' if ') && (line != array[0])
+        if ((line[:text].include? ' if ') || (line[:text].include? ' unless ')) && (line != array[0])
+          nested_if.push(line)
+        end
       end
     end
-  end
 
-  def prints_nested_if
-    return if @nested_if.empty?
-
-    puts 'Nested IF statements have been found'
-    @nested_if.map { |line| puts 'File: ' + line[:filename] + ', Line: ' + line[:line_place].to_s + ', Text: ' + line[:text] }
+    nested_if
   end
 end
 
-file = FileHandler.new('./test_files/cases.rb')
-file.set_if_blocks
-file.find_nested_if
-file.prints_nested_if
+# system 'rubocop -a'
+
+# file = FileHandler.new('./spec/cases.rb')
+# if file.warning.nil?
+#   file.messages.map { |line| puts line }
+# else
+#   puts file.warning
+# end
