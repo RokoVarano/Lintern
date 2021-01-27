@@ -97,20 +97,23 @@ class FileHandler
   def valid_line(line)
     return false if line[:text].strip[0] == '#'
 
-    in_string = false
+    return false if in_string(line)
 
+    true
+  end
+
+  def in_string(line)
     if line[:text].include? "'"
-      in_string = true if line[:text][/'(.*?)'/, 1].include?(' if ' || ' unless ')
 
       split_line = line[:text].split(/'(.*?)'/)
       split_line.map do |piece|
-        in_string = false if piece.include?(' if ' || ' unless ') && piece != line[:text][/'(.*?)'/, 1]
+        return false if piece.include?(' if ' || ' unless ') && piece != line[:text][/'(.*?)'/, 1]
       end
+
+      return true
     end
 
-    return false if in_string
-
-    true
+    false
   end
 
   def starter_line(line, if_indentation)
