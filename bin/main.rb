@@ -40,8 +40,27 @@ class FileHandler
 
     return if nested.empty?
 
-    puts 'Nested IF statements have been found'
-    nested.map { |line| messages.push('File: ' + line[:filename] + ', Line: ' + line[:line_place].to_s + ', Text: ' + line[:text])}
+    nested.map do |line|
+      messages.push('File: ' + line[:filename] + ', Line: ' + line[:line_place].to_s + ', Text: ' + line[:text])
+    end
+
+    unless messages.empty?
+      puts 'Nested IF statements have been found'
+      puts
+      puts 'Try combining conditions'
+      puts ' instead of: '
+      puts '   if true_condition'
+      puts '     effect if another_true'
+      puts '   end'
+      puts 
+      puts ' do:'
+      puts '   effect if another_true && true_condition'
+      puts
+      puts 'Or use a guard clause, like so:'
+      puts '   return unless true_condition && another_true'
+      puts '   effect'
+      puts
+    end
 
     messages
   end
