@@ -1,4 +1,4 @@
-require_relative '../bin/main'
+require_relative '../bin/file_handler'
 
 describe FileHandler do
   describe '#initialize' do
