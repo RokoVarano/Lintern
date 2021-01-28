@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'bundler/setup'
+require 'timeout'
 
 Bundler.require(:default)
 
@@ -36,30 +37,10 @@ class FileHandler
       messages.push('File: ' + line[:filename] + ', Line: ' + line[:line_place].to_s + ', Text: ' + line[:text].strip)
     end
 
-    print_message unless messages.empty?
-
     messages
   end
 
   private
-
-  def print_message
-    puts 'Nested IF statements have been found'
-    puts
-    puts 'Try combining conditions'
-    puts ' instead of: '
-    puts '   if true_condition'
-    puts '     effect if another_true'
-    puts '   end'
-    puts
-    puts ' do:'
-    puts '   effect if another_true && true_condition'
-    puts
-    puts 'Or use a guard clause, like so:'
-    puts '   return unless true_condition && another_true'
-    puts '   effect'
-    puts
-  end
 
   def set_if_blocks
     switch = false
@@ -68,7 +49,6 @@ class FileHandler
     if_array = []
 
     @file_array.map do |line|
-
       if if_indentation == line[:indentation]
         if_arrays.push(if_array)
         if_array = []
@@ -134,11 +114,69 @@ class FileHandler
   end
 end
 
-Dir['./**/*.rb'].map do |dir|
-  file = FileHandler.new(dir)
-  if file.warning
-    puts file.warning
-  else
-    puts file.line_print
+def print_message
+  puts
+  puts 'Nested IF statements have been found'
+  puts
+  puts 'Try combining conditions'
+  puts ' instead of: '
+  puts '   if true_condition'
+  puts '     effect if another_true'
+  puts '   end'
+  puts
+  puts ' do:'
+  puts '   effect if another_true && true_condition'
+  puts
+  puts 'Or use a guard clause, like so:'
+  puts '   return unless true_condition && another_true'
+  puts '   effect'
+  puts
+end
+
+again = true
+
+while again
+
+  again = false
+
+  puts 'Please enter relative directory to find nested IF statements. rubocop -a will be executed to enforce alignment'
+
+  quit = false
+
+  directory = ''
+
+  while Dir[directory].empty?
+
+    return if quit
+
+    directory = gets.chomp + '/**/*.rb'
+
+    directory = '.' + directory if directory == '/**/*.rb'
+
+    puts directory + ': No ruby files in directory. Try again or type QUIT(all caps) to exit' if Dir[directory].empty?
+
+    quit = true if directory == 'quit'.upcase + '/**/*.rb'
+  end
+
+  system 'rubocop -a'
+
+  fix_message = false
+
+  begin
+    Timeout.timeout(10) do
+      Dir[directory].map do |dir|
+        file = FileHandler.new(dir)
+        puts file.warning if file.warning
+
+        unless file.line_print.nil?
+          puts file.line_print
+          fix_message = true
+        end
+      end
+      print_message if fix_message
+    end
+  rescue StandardError
+    puts 'Finding items took more than 10 seconds. Directory may have too much content'
+    again = true
   end
 end

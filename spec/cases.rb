@@ -43,7 +43,5 @@ def disruptive
     'unless This string has if if and unless unless ' if the_second
   end
 
-  if the_second
-    'This string has if if and unless unless '
-  end
+  'This string has if if and unless unless ' if the_second
 end

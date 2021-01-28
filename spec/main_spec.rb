@@ -29,7 +29,7 @@ describe FileHandler do
       end
     end
     it 'sets a warning if a file cannot be read' do
-      expect(FileHandler.new('./non_existant/file.rb').warning).to eq('Warning: File could not be read: ' + './non_existant/file.rb')
+      expect(FileHandler.new('./not/file.rb').warning).to eq('Warning: File could not be read: ' + './not/file.rb')
     end
   end
 
