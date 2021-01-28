@@ -31,6 +31,7 @@ GEM
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 2.0)
     ruby-progressbar (1.11.0)
+    timeout (0.1.0)
     unicode-display_width (1.7.0)
 
 PLATFORMS
@@ -39,6 +40,7 @@ PLATFORMS
 DEPENDENCIES
   rspec
   rubocop (~> 0.81.0)
+  timeout
 
 BUNDLED WITH
    2.1.4
