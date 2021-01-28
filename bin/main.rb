@@ -163,7 +163,7 @@ while again
   fix_message = false
 
   begin
-    Timeout.timeout(10) do
+    Timeout.timeout(1) do
       Dir[directory].map do |dir|
         file = FileHandler.new(dir)
         puts file.warning if file.warning
@@ -176,7 +176,7 @@ while again
       print_message if fix_message
     end
   rescue StandardError
-    puts 'Finding items took more than 10 seconds. Directory may have too much content'
+    puts 'Finding items took more than a minute. Directory may have too much content'
     again = true
   end
 end
