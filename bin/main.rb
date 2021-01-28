@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'rubygems'
 require 'bundler/setup'
 require 'timeout'
@@ -153,7 +155,7 @@ while again
 
     directory = '.' + directory if directory == '/**/*.rb'
 
-    puts directory + ': No ruby files in directory. Try again or type QUIT(all caps) to exit' if Dir[directory].empty?
+    puts 'No ruby files in directory. Try again or type QUIT(all caps) to exit' if Dir[directory].empty?
 
     quit = true if directory == 'quit'.upcase + '/**/*.rb'
   end
