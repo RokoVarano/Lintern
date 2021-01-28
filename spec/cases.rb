@@ -1,3 +1,4 @@
+# rubocop:disable Style/GuardClause
 def nested_if
   the_first = true
   the_second = true
@@ -45,3 +46,4 @@ def disruptive
 
   'This string has if if and unless unless ' if the_second
 end
+# rubocop:enable Style/GuardClause

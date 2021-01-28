@@ -118,8 +118,6 @@ end
 
 def print_message
   puts
-  puts 'Nested IF statements have been found'
-  puts
   puts 'Try combining conditions'
   puts ' instead of: '
   puts '   if true_condition'
@@ -162,6 +160,9 @@ while again
 
   system 'rubocop -a'
 
+  puts
+  puts '-----End of Rubocop-----'
+
   fix_message = false
 
   begin
@@ -170,10 +171,13 @@ while again
         file = FileHandler.new(dir)
         puts file.warning if file.warning
 
-        unless file.line_print.nil?
-          puts file.line_print
-          fix_message = true
-        end
+        next if file.line_print.nil?
+
+        puts
+        puts 'Nested IF statements have been found'
+        puts
+        puts file.line_print
+        fix_message = true
       end
       print_message if fix_message
     end

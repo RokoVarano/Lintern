@@ -37,7 +37,7 @@ describe FileHandler do
     it 'considers nest if-end blocks' do
       included = false
       FileHandler.new('./spec/cases.rb').line_print.map do |line|
-        included = true if line.include? 'Line: 7'
+        included = true if line.include? 'Line: 8'
       end
       expect(included).to be true
     end
@@ -45,7 +45,7 @@ describe FileHandler do
     it 'considers nested single-line if statements' do
       included = false
       FileHandler.new('./spec/cases.rb').line_print.map do |line|
-        included = true if line.include? 'Line: 8'
+        included = true if line.include? 'Line: 9'
       end
       expect(included).to be true
     end
@@ -53,7 +53,7 @@ describe FileHandler do
     it 'considers nest unless-end blocks' do
       included = false
       FileHandler.new('./spec/cases.rb').line_print.map do |line|
-        included = true if line.include? 'Line: 19'
+        included = true if line.include? 'Line: 20'
       end
       expect(included).to be true
     end
@@ -61,7 +61,7 @@ describe FileHandler do
     it 'considers nested single-line if statements inside unless blocks' do
       included = false
       FileHandler.new('./spec/cases.rb').line_print.map do |line|
-        included = true if line.include? 'Line: 20'
+        included = true if line.include? 'Line: 21'
       end
       expect(included).to be true
     end
@@ -69,7 +69,7 @@ describe FileHandler do
     it 'considers nested single-line if statements where an if in-string word is present' do
       included = false
       FileHandler.new('./spec/cases.rb').line_print.map do |line|
-        included = true if line.include? 'Line: 43'
+        included = true if line.include? 'Line: 44'
       end
       expect(included).to be true
     end
@@ -77,7 +77,7 @@ describe FileHandler do
     it 'excludes single-line if statements which are by themselves' do
       excluded = true
       FileHandler.new('./spec/cases.rb').line_print.map do |line|
-        excluded = false if line.include? 'Line: 29'
+        excluded = false if line.include? 'Line: 30'
       end
       expect(excluded).to be true
     end
@@ -85,7 +85,7 @@ describe FileHandler do
     it 'excludes single-line unless statements which are by themselves' do
       excluded = true
       FileHandler.new('./spec/cases.rb').line_print.map do |line|
-        excluded = false if line.include? 'Line: 31'
+        excluded = false if line.include? 'Line: 32'
       end
       expect(excluded).to be true
     end
@@ -93,7 +93,7 @@ describe FileHandler do
     it 'excludes comments inside if blocks that contain the if or the unless word ' do
       excluded = true
       FileHandler.new('./spec/cases.rb').line_print.map do |line|
-        excluded = false if line.include? 'Line: 39'
+        excluded = false if line.include? 'Line: 40'
       end
       expect(excluded).to be true
     end
@@ -101,7 +101,7 @@ describe FileHandler do
     it 'excludes lines that include the if or unless word inside a string' do
       excluded = true
       FileHandler.new('./spec/cases.rb').line_print.map do |line|
-        excluded = false if line.include? 'Line: 47'
+        excluded = false if line.include? 'Line: 48'
       end
       expect(excluded).to be true
     end

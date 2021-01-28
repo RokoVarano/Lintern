@@ -2,41 +2,32 @@
 
 # Ruby DRY Lintern
 
-> This program will analize your code and prevent repetition by suggesting shorter solutions that will have the same result in less lines.
+This program detects and presents nested if and unless statements found in all ruby files in a directory
 
-Ideally, this would be implemented into Rubocop later on, by using rubocop -dry
-
-![screenshot](./app_screenshot.png)
+![screenshot](./Screenshot.png)
 
 ## Built With
 
 - RUBY
 
-## Live Demo
-
-[Live Demo Link](https://livedemo.com)
-
-
 ## Getting Started
 
-**This is an example of how you may give instructions on setting up your project locally.**
-**Modify this file to match your project, remove sections that don't apply. For example: delete the testing section if the currect project doesn't require testing.**
+For this program to be running, [Rubocop](https://docs.rubocop.org/rubocop/installation.html) must be installed first.
 
+To run the program, go first clone [this repo](https://github.com/RokoVarano/Lintern/tree/feature/project)
 
-To get a local copy up and running follow these simple example steps.
+In the terminal, navigate to the program's directory and type:
+  bin/main.rb
 
-### Prerequisites
+You will be asked to enter a relative directory. For Example:
+  ../my_other_project/
 
-### Setup
+The program will first run 'rubocop -a' to ensure that your files have correct indentation, which is essential for it to run.
+Then it will present you with the lines that contain the nested statements, including file name, line and text.
 
-### Install
+If the process takes too long (more than a minute) or no ruby files are found in the directory, it will ask again to provide a valid relative directory.
 
-### Usage
-
-### Run tests
-
-### Deployment
-
+If you need to quit, just type 'QUIT' in all caps to exit the program.
 
 ## Authors
 
