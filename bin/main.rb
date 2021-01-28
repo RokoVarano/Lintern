@@ -76,6 +76,7 @@ class FileHandler
     if_array = []
 
     @file_array.map do |line|
+
       if if_indentation == line[:indentation]
         if_arrays.push(if_array)
         if_array = []
@@ -83,7 +84,7 @@ class FileHandler
         switch = false
       end
 
-      if starter_line(line, if_indentation)
+      if starter_line(line, if_indentation) && !singleline(line)
         switch = true
         if_indentation = line[:indentation]
       end
@@ -92,6 +93,12 @@ class FileHandler
     end
 
     if_arrays
+  end
+
+  def singleline(line)
+    return false if line[:text].split(' ')[0] == 'if'
+
+    true
   end
 
   def valid_line(line)
@@ -103,17 +110,14 @@ class FileHandler
   end
 
   def in_string(line)
-    if line[:text].include? "'"
+    return false unless line[:text].include? "'"
 
-      split_line = line[:text].split(/'(.*?)'/)
-      split_line.map do |piece|
-        return false if piece.include?(' if ' || ' unless ') && piece != line[:text][/'(.*?)'/, 1]
-      end
-
-      return true
+    split_line = line[:text].split(/'(.*?)'/)
+    split_line.map do |piece|
+      return false if piece.include?(' if ' || ' unless ') && piece != line[:text][/'(.*?)'/, 1]
     end
 
-    false
+    true
   end
 
   def starter_line(line, if_indentation)
@@ -138,11 +142,11 @@ class FileHandler
   end
 end
 
-# Dir['./**/*.rb'].map do |dir|
-#   file = FileHandler.new(dir)
-#   if file.warning
-#     puts file.warning
-#   else
-#     puts file.line_print
-#   end
-# end
+Dir['./**/*.rb'].map do |dir|
+  file = FileHandler.new(dir)
+  if file.warning
+    puts file.warning
+  else
+    puts file.line_print
+  end
+end
