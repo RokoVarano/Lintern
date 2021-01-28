@@ -25,17 +25,10 @@ end
 def inline_if
   the_first = false
   the_second = false
-  the_third = true
-  the_fourth = true
 
   puts 'the first' if the_first
 
   puts 'the second' unless the_second
-
-  if the_third
-    # This should be detected
-    puts 'the fourth' if the_fourth
-  end
 end
 
 def disruptive
