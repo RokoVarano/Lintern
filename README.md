@@ -29,6 +29,10 @@ If the process takes too long (more than a minute) or no ruby files are found in
 
 If you need to quit, just type 'QUIT' in all caps to exit the program.
 
+## Testing the Program
+
+A 'cases.rb' file can be used to test the correct functionality of the program. It is currently done with [rspec](https://github.com/rspec/rspec), which needs to be installed locally first.
+
 ## Authors
 
 👤 **Rodrigo Ibaceta**
