@@ -10,7 +10,7 @@ This program detects and presents nested if and unless statements found in all r
 
 - RUBY
 
-## Getting Started
+## Running the Program
 
 For this program to be running, [Rubocop](https://docs.rubocop.org/rubocop/installation.html) must be installed first.
 
